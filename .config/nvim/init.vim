@@ -2,6 +2,8 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/dist/*
+
 let g:python_host_prog=expand('$PYENV_ROOT/versions/$PYENV2_NAME/bin/python')
 let g:python3_host_prog=expand('$PYENV_ROOT/versions/$PYENV3_NAME/bin/python')
 
@@ -35,20 +37,23 @@ Plug 'chr4/nginx.vim'
 Plug 'tpope/vim-commentary'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'mattn/emmet-vim', { 'on_ft': ['javascript', 'javascript.jsx', 'html', 'xml'] }
-Plug 'prettier/vim-prettier'
 Plug 'pangloss/vim-javascript'
+Plug 'heavenshell/vim-jsdoc'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}  " intellisense
 Plug 'tpope/vim-fugitive'
-" Plug 'Valloric/MatchTagAlways'
+Plug 'Valloric/MatchTagAlways'
 Plug 'cohama/lexima.vim'
+Plug 'python-mode/python-mode', { 'branch': 'develop' }
 
 " format
 Plug 'ntpeters/vim-better-whitespace'
 
 " theme
 Plug 'phanviet/vim-monokai-pro'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
@@ -97,6 +102,40 @@ set undolevels=100
 set nowrap
 
 "ale
+let g:ale_linters_explicit=1
+let g:ale_fix_on_save=1
+let g:ale_linters={
+\ 'css': ['prettier'],
+\ 'c': ['clangtidy'],
+\ 'cpp': ['clangtidy', 'cppcheck'],
+\ 'go': ['gofmt'],
+\ 'graphql': ['prettier'],
+\ 'html': ['prettier'],
+\ 'javascript': ['eslint', 'prettier'],
+\ 'python': ['pylint'],
+\ 'json': ['prettier'],
+\ 'less': ['prettier'],
+\ 'markdown': ['prettier'],
+\ 'rust': ['rustfmt'],
+\ 'scss': ['prettier'],
+\ 'sh': ['language_server'],
+\ 'terraform': ['fmt'],
+\ 'xml': ['xmllint'],
+\ 'yaml': ['prettier'],
+\}
+
+let g:ale_fixers={
+\ 'css': ['prettier'],
+\ 'graphql': ['prettier'],
+\ 'html': ['prettier'],
+\ 'javascript': ['prettier', 'eslint'],
+\ 'json': ['prettier'],
+\ 'python': ['generic_python'],
+\ 'less': ['prettier'],
+\ 'markdown': ['prettier'],
+\ 'scss': ['prettier'],
+\ 'yaml': ['prettier'],
+\}
 
 "fzf
 let g:fzf_buffers_jump=1
@@ -115,13 +154,14 @@ let g:gitgutter_enabled=0
 let g:jsx_ext_required=0
 
 " Go
-let g:go_fmt_command= "goimports"
+let g:go_fmt_command = "goimports"
 let g:go_term_mode="split"
 let g:go_list_height=0
 let g:go_term_mode="split"
 let g:go_term_height=10
 let g:go_term_width=10
 let g:delve_new_command="enew"
+let g:go_autodetect_gopath=1
 
 " Prettier
 let g:prettier#config#bracket_spacing='true'
@@ -150,6 +190,8 @@ let g:prettier#config#single_quote='true'
 let g:prettier#config#trailing_comma='es5'
 let g:prettier#config#jsx_bracket_same_line='true'
 let g:prettier#exec_cmd_async=1
+let g:jsdoc_return=1
+let g:jsdoc_enable_es6=1
 
 " FUNCTIONS
 function! s:fzf_statusline()
@@ -172,6 +214,9 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+" Use `:Format` for format current buffer
+command! -nargs=0 Format :call CocAction('format')
 
 if executable('./node_modules/.bin/eslint')
   let g:neomake_javascript_eslint_exe='./node_modules/.bin/eslint'
