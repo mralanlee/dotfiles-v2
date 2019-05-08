@@ -1,3 +1,4 @@
+
 if &compatible
   set nocompatible               " Be iMproved
 endif
@@ -43,22 +44,26 @@ Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}  " intellisense
 Plug 'tpope/vim-fugitive'
-Plug 'Valloric/MatchTagAlways'
+Plug 'airblade/vim-gitgutter'
+" Plug 'Valloric/MatchTagAlways'
 Plug 'cohama/lexima.vim'
 Plug 'python-mode/python-mode', { 'branch': 'develop' }
 
 " format
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'andymass/vim-matchup'
 
 " theme
-Plug 'phanviet/vim-monokai-pro'
+" Plug 'phanviet/vim-monokai-pro'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'mhartington/oceanic-next'
+" Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
 set background=dark
-colorscheme monokai_pro
+colorscheme OceanicNext
 filetype plugin indent on
 syntax enable
 highlight Pmenu guibg=#161616
