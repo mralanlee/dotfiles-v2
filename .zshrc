@@ -1,61 +1,27 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Modular conifg setup
+export ZSH_CUSTOM=$HOME/.config/zsh
+
+source $ZSH_CUSTOM/.zshenv
+
 # Ansible Vault
 export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.ansible_vault.txt
 
-# PATHS
-export GOPATH=$HOME/go
-export PATH=$PATH:$HOME/go/bin
-export PATH=$HOME/.cargo/bin:$PATH
-export PATH=$PATH:$HOME/.protoc/bin
-export PATH=$HOME/bin:$PATH
-export VIMPATH=$HOME/.config/nvim/init.vim
-export ZSHRC=$HOME/.zshrc
-export ALARC=$HOME/.config/alacritty/alacritty.yml
 ## Language Specific
 # GO
 export GO111MODULE=auto
 export GOPROXY="direct"
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/alalee/.oh-my-zsh"
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
 
 ZSH_THEME="hyperzsh"
 
 # fasd
 eval "$(fasd --init auto)"
-
-# ALIASES
-alias pro='cd ~/projects'
-alias gco='git checkout'
-alias gc='git commit'
-alias ga='git add'
-alias gaa='git add .'
-alias gb='git branch'
-alias gst='git status'
-alias vimc='nvim $VIMPATH'
-alias zshc='nvim $ZSHRC'
-alias alac='nvim $ALARC'
-alias sz='source $ZSHRC'
-alias sv='source $VIMPATH'
-alias cat='bat'
-alias ls='exa'
-alias j='fasd_cd -d'
-
-gpu() {
-  BRANCH=$(git branch | grep \* | cut -d ' ' -f2)
-  git push --set-upstream origin $BRANCH
-}
-
-zupload() {
-  grunt zendesk-dist
-  node scripts/uploadDisted.js
-}
-
-pk() {
-  PORT=$1
-  lsof -ti:$PORT | xargs kill
-}
 
 plugins=(
   git,
@@ -101,6 +67,19 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Terraform
+function tf_prompt_info() {
+  # dont show 'default' workspace in home dir
+  [[ "$PWD" == ~ ]] && return
+  # check if in terraform dir
+  if [ -d .terraform ]; then
+    workspace=$(terraform workspace show 2> /dev/null) || return
+    echo "[${workspace}]"
+  fi
+}
+
+PROMPT='%F{green}%* $(tf_prompt_info) '$PROMPT
+
 # Syntax Highlighting
 source /Users/alalee/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # added by travis gem
@@ -116,3 +95,6 @@ complete -o nospace -C /Users/alalee/go/bin/terraform terraform
 # fnm
 export PATH=$HOME/.fnm:$PATH
 eval `fnm env`
+
+export YVM_DIR=/usr/local/opt/yvm
+[ -r $YVM_DIR/yvm.sh ] && . $YVM_DIR/yvm.sh
