@@ -1,4 +1,3 @@
-
 if &compatible
   set nocompatible               " Be iMproved
 endif
@@ -25,8 +24,10 @@ Plug 'junegunn/fzf.vim', { 'depends': 'fzf' } "fzf
 Plug 'w0rp/ale'                       "lint/fix
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
 Plug 'Yggdroot/indentLine'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'eval `fnm env` & cd app & npm install' }
+Plug 'scrooloose/nerdtree'
 
 " code
 Plug 'fatih/vim-go'
@@ -48,15 +49,18 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'Valloric/MatchTagAlways'
 Plug 'cohama/lexima.vim'
 Plug 'python-mode/python-mode', { 'branch': 'develop' }
+Plug 'Glench/Vim-Jinja2-Syntax'
 
 " format
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'andymass/vim-matchup'
+Plug 'kristijanhusak/vim-carbon-now-sh'
 
 " theme
 " Plug 'phanviet/vim-monokai-pro'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+" Plug 'jaredgorski/SpaceCamp'
 Plug 'mhartington/oceanic-next'
 " Plug 'chriskempson/base16-vim'
 
@@ -64,6 +68,7 @@ call plug#end()
 
 set background=dark
 colorscheme OceanicNext
+"colorscheme spacecamp
 filetype plugin indent on
 syntax enable
 highlight Pmenu guibg=#161616
@@ -102,7 +107,7 @@ set shiftwidth=2
 set expandtab
 set tabstop=2
 "set softtabstop=2
-set conceallevel=1
+set conceallevel=0
 set undolevels=100
 set nowrap
 
@@ -247,8 +252,18 @@ command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 " Use `:Format` for format current buffer
 command! -nargs=0 Format :call CocAction('format')
 
-nmap , :Files<CR>
+"CarbonNow
+let g:carbon_now_sh_browser = 'google-chrome'
+
+" Set Leader
 let mapleader="\<SPACE>"
+
+"NerdTree
+nmap <Leader>n :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeShowHidden=1
+
+nmap , :Files<CR>
 nnoremap <leader>= <C-w>=
 noremap <leader>q :q<CR>
 noremap <leader>w :w<CR>
