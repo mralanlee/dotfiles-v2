@@ -1,11 +1,17 @@
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Modular conifg setup
 export ZSH_CUSTOM=$HOME/.config/zsh
+export ZSHFUNCTIONS=$HOME/.config/zsh/functions.zsh
+export ZSHALIAS=$HOME/.config/zsh/alias.zsh
+export ZSHPATH=$HOME/.config/zsh/path.zsh
 
 source $ZSH_CUSTOM/.zshenv
-
+source $ZSHPATH
+source $ZSHFUNCTIONS
+source $ZSHALIAS
 # Ansible Vault
 export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.ansible_vault.txt
 
@@ -14,7 +20,7 @@ export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.ansible_vault.txt
 export GO111MODULE=auto
 export GOPROXY="direct"
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/alalee/.oh-my-zsh"
+export ZSH=$HOME/.oh-my-zsh
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
@@ -51,9 +57,6 @@ if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
 fi
 
-# Heroku environmental vars
-# added by travis gem
-[ -f /Users/alalee/.travis/travis.sh ] && source /Users/alalee/.travis/travis.sh
 
 # DOCKER
 fpath=(~/.zsh/completion $fpath)
@@ -81,16 +84,16 @@ function tf_prompt_info() {
 PROMPT='%F{green}%* $(tf_prompt_info) '$PROMPT
 
 # Syntax Highlighting
-source /Users/alalee/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # added by travis gem
-[ -f /Users/alalee/.travis/travis.sh ] && source /Users/alalee/.travis/travis.sh
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
 
-complete -o nospace -C /Users/alalee/go/bin/vault vault
+complete -o nospace -C $HOME/go/bin/vault vault
 
-complete -o nospace -C /Users/alalee/go/bin/terraform terraform
+complete -o nospace -C $HOME/go/bin/terraform terraform
 
 # fnm
 export PATH=$HOME/.fnm:$PATH
@@ -98,3 +101,4 @@ eval `fnm env`
 
 export YVM_DIR=/usr/local/opt/yvm
 [ -r $YVM_DIR/yvm.sh ] && . $YVM_DIR/yvm.sh
+
