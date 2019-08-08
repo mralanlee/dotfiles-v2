@@ -27,7 +27,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'Yggdroot/indentLine'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'eval `fnm env` & cd app & npm install' }
-Plug 'scrooloose/nerdtree'
 
 " code
 Plug 'fatih/vim-go'
@@ -110,6 +109,7 @@ set tabstop=2
 set conceallevel=0
 set undolevels=100
 set nowrap
+set undodir=~/.config/nvim/undodir " Maintain undo history between sessions
 
 "ale
 let g:ale_linters_explicit=1
@@ -118,7 +118,7 @@ let g:ale_linters={
 \ 'css': ['prettier'],
 \ 'c': ['clangtidy'],
 \ 'cpp': ['clangtidy', 'cppcheck'],
-\ 'go': ['gofmt'],
+\ 'go': ['gopls'],
 \ 'graphql': ['prettier'],
 \ 'html': ['prettier'],
 \ 'javascript': ['eslint', 'prettier'],
@@ -172,6 +172,8 @@ let g:go_term_height=10
 let g:go_term_width=10
 let g:delve_new_command="enew"
 let g:go_autodetect_gopath=1
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 
 " Prettier
 let g:prettier#config#bracket_spacing='true'
@@ -255,13 +257,11 @@ command! -nargs=0 Format :call CocAction('format')
 "CarbonNow
 let g:carbon_now_sh_browser = 'google-chrome'
 
+" Auto Resize when window has changed
+autocmd VimResized * wincmd =
+
 " Set Leader
 let mapleader="\<SPACE>"
-
-"NerdTree
-nmap <Leader>n :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let NERDTreeShowHidden=1
 
 nmap , :Files<CR>
 nnoremap <leader>= <C-w>=
