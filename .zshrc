@@ -1,4 +1,3 @@
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -7,6 +6,7 @@ export ZSH_CUSTOM=$HOME/.config/zsh
 export ZSHFUNCTIONS=$HOME/.config/zsh/functions.zsh
 export ZSHALIAS=$HOME/.config/zsh/alias.zsh
 export ZSHPATH=$HOME/.config/zsh/path.zsh
+export ZSHENV=$ZSH_CUSTOM/.zshenv
 
 source $ZSH_CUSTOM/.zshenv
 source $ZSHPATH
@@ -20,7 +20,7 @@ export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.ansible_vault.txt
 export GO111MODULE=auto
 export GOPROXY="direct"
 # Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
@@ -57,11 +57,6 @@ if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
 fi
 
-
-# DOCKER
-fpath=(~/.zsh/completion $fpath)
-autoload -Uz compinit && compinit -i
-
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -89,10 +84,6 @@ source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/vault vault
-
-complete -o nospace -C $HOME/go/bin/vault vault
-
 complete -o nospace -C $HOME/go/bin/terraform terraform
 
 # fnm
