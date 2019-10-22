@@ -27,6 +27,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'Yggdroot/indentLine'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'eval `fnm env` & cd app & npm install' }
+Plug 'voldikss/vim-floaterm'
 
 " code
 Plug 'fatih/vim-go'
@@ -147,6 +148,14 @@ let g:ale_fixers={
 \ 'yaml': ['prettier'],
 \}
 
+" floaterm
+let g:floaterm_position='center'
+
+" netrw
+let g:netrw_liststyle=3
+let g:netrw_banner=0
+let g:netrw_winsize=15
+
 "fzf
 let g:fzf_buffers_jump=1
 let g:fzf_history_dir='~/.local/share/fzf-history'
@@ -263,6 +272,8 @@ autocmd VimResized * wincmd =
 " Set Leader
 let mapleader="\<SPACE>"
 
+noremap <leader>T :FloatermToggle<CR>i
+
 nmap , :Files<CR>
 nnoremap <leader>= <C-w>=
 noremap <leader>q :q<CR>
@@ -303,3 +314,5 @@ nnoremap <C-l> <C-w>l
 nnoremap _ <C-w>_
 
 filetype plugin indent on
+
+
